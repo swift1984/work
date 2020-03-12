@@ -1,5 +1,6 @@
 package com.swift.app;
 
+import java.util.regex.*;
 /**
  * Hello world!
  *
@@ -9,8 +10,18 @@ public class App
     public static void main( String[] args )
     {
         App obj = new App();
-        System.out.println("iptoLong : " + obj.ipToLong("255.255.255.255.255"));
-        System.out.println("longToIp : " + obj.longToIp(1099511627775L));
+        //System.out.println("iptoLong : " + obj.ipToLong("255.255.255.255.255"));
+        //System.out.println("longToIp : " + obj.longToIp(1099511627775L));
+        String EXAMPLE_TEST = "{   objectFullName: svc-mgr:service-1047:36.36.36.36,   objectFullName: svc-mgr:service-1047:36.36.36.36:interface-lag_1-inner-tag-4095-outer-tag-2002,   objectFullName: svc-mgr:service-1047:36.36.36.36:interface-1/1/5-inner-tag-0-outer-tag-2002,   objectFullName: svc-mgr:service-1047:36.36.36.36:interface-lag_1-inner-tag-4095-outer-tag-2002:svc-21port-1342177281encap-268371922,   objectFullName: svc-mgr:service-1047:36.36.36.36:interface-1/1/5-inner-tag-0-outer-tag-2002:svc-21port-35815424encap-2002   }";
+        //System.out.println(EXAMPLE_TEST);
+        //Pattern pattern = Pattern.compile("objectFullName:([\\w- :.]+)");
+        Pattern pattern = Pattern.compile("objectFullName:([\\w- .]+):(service-[0-9]*:).*(interface-lag).*(inner-tag).*(outer-tag).*");
+        Matcher matcher = pattern.matcher(EXAMPLE_TEST);
+        while (matcher.find()) {
+            System.out.println("Start index: " + matcher.start());
+            System.out.println("End index: " + matcher.end());
+            System.out.println(matcher.group());
+        }
     }
 
     public long ipToLong(String ipAddress) {
